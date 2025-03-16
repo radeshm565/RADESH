@@ -1,0 +1,85 @@
+import java.util.Scanner;
+
+abstract class BankAccount {
+    abstract void deposit(double amount);
+    abstract void withdraw(double amount);
+    abstract void checkBalance();
+}
+
+class DigitalBank extends BankAccount {
+    private double balance = 0;
+    
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+    
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient funds");
+        }
+    }
+    
+    void checkBalance() {
+        System.out.println("Balance: " + balance);
+    }
+    
+    void payOnline(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Paid Online: " + amount);
+        } else {
+            System.out.println("Insufficient funds for online payment");
+        }
+    }
+}
+
+// Main Method to Run the Program
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        DigitalBank account = new DigitalBank();
+        
+        while (true) {
+            System.out.println("\nChoose an action:");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Pay Online");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = scanner.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to deposit: ");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to withdraw: ");
+                    double withdrawAmount = scanner.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 3:
+                    account.checkBalance();
+                    break;
+                case 4:
+                    System.out.print("Enter amount to pay online: ");
+                    double payAmount = scanner.nextDouble();
+                    account.payOnline(payAmount);
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
